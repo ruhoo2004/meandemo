@@ -22,6 +22,7 @@ router.get('/:id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   Todo.create(req.body, function(err, post) {
   	if (err) return next(err);
+    console.log("routes/todos.js post, create new id")
   	res.json(post);
   });
 });
