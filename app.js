@@ -7,15 +7,13 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var todos = require('./routes/todos')
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/todoApp', function(err) {
-	if (err) {
-		console.log('failed to connect db');
-	} else {
-		console.log('connected to mangodb');
-	}
-});
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/todoApp')
+	.then(() => console.log('connected to mongodb'))
+	.catch((err) => console.error(err));
 
 var app = express();
 
@@ -33,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/todos', todos);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
